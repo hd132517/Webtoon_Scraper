@@ -6,6 +6,7 @@ import base64
 import numpy as np
 import shutil
 import math
+import shutil
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -50,6 +51,8 @@ def get_episode_urls(webtoon_list_url, limit=3):
 
 
 def get_webtoon_images_with_selenium(url, save_dir="raw_images"):
+    if os.path.exists(save_dir):
+        shutil.rmtree(save_dir)
     os.makedirs(save_dir, exist_ok=True)
 
     options = Options()
@@ -129,7 +132,7 @@ def detect_panel_ranges(binary_img, axis='vertical', threshold=250, min_size=50)
     return ranges if ranges else [(0, size)]
 
 
-def recursively_split_and_save(img, base_name, panel_idx, save_dir, depth=0, max_depth=3, threshold=252):
+def recursively_split_and_save(img, base_name, panel_idx, save_dir, depth=0, max_depth=3, threshold=255):
     """
     이미지 내 패널을 재귀적으로 분할하여 저장
     """
@@ -193,6 +196,9 @@ def recursively_split_and_save(img, base_name, panel_idx, save_dir, depth=0, max
 
 
 def split_image_panels(input_folder="raw_images", output_folder="cut_panels/회차제목"):
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
+
     # 임시 폴더: 같은 상위 디렉토리 내에 생성
     parent_dir = os.path.dirname(output_folder)
     final_name = os.path.basename(output_folder)
