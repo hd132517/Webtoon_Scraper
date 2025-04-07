@@ -261,7 +261,7 @@ if __name__ == "__main__":
     pagenumlimit = 1
 
     if menu == 2:
-        pagenum = limitHead
+        pagenum = limitHead-1
         limitHead = 1
         pagenumlimit = limitBack
         limitBack = 20
@@ -278,6 +278,7 @@ if __name__ == "__main__":
 
     # limit : 현재 페이지에서 받을 회차의 수
     # pagenum = 현재 페이지
+    # limitHead = 시작하는 회차 => 첫 페이지에서 받는 회차
     # pagenumlimit = 마지막 페이지
 
     while pagenum < pagenumlimit:
@@ -298,6 +299,7 @@ if __name__ == "__main__":
 
             for idx, (ep_url, ep_title) in enumerate(episode_urls):
                 # 첫 페이지면 특정 회차 스킵
+                # 첫 페이지 19회차까지 한칸씩 당겨짐 (예고편 제거해서)
                 if limitHead > 1:
                     limitHead -= 1
                     continue
